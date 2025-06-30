@@ -1,0 +1,100 @@
+/* /src/app/App.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+    background-color: #ccc;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
+    max-width: 340px;
+    width: 100%;
+}
+
+.display {
+    width: 300px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    text-align: right;
+    font-size: 24px;
+    border-radius: 8px;
+}
+
+.button {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+    background-color: #e0e0e0; /* Более чёткий фон для цифр и точки */
+    color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Добавляем тень для объёма */
+}
+
+/* Операции */
+.button.operation {
+    background-color: #ff9800;
+    color: white;
+}
+
+/* Равно */
+.button.equal {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Очистка */
+.button.clear {
+    background-color: #ff5252;
+    color: white;
+}
+
+/* Hover стили */
+.button:hover {
+    background-color: rgba(221, 221, 221, 0.52);
+}
+
+.button.operation:hover {
+    background-color: #ffb883;
+}
+
+.button.clear:hover {
+    background-color: #ff9e9e;
+}
+
+.button.equal:hover {
+    background-color: #81c784;
+}
+
+/* Active стили для всех кнопок */
+.button:active {
+    background-color: #bbb;
+}
+
+.button.operation:active {
+    background-color: #f57c00;
+}
+
+.button.clear:active {
+    background-color: #d32f2f;
+}
+
+.button.equal:active {
+    background-color: #388e3c;
+}
+
+/* Сетка кнопок */
+.buttonContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
