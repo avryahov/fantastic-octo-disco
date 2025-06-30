@@ -10,7 +10,7 @@
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 40px auto;
-    max-width: 340px;
+    max-width: 360px;
     width: 100%;
 }
 
@@ -23,6 +23,11 @@
     text-align: right;
     font-size: 24px;
     border-radius: 8px;
+    box-sizing: border-box;
+    height: 60px;
+    overflow: hidden;
+    white-space: nowrap;
+    direction: rtl;
 }
 
 .button {
@@ -92,7 +97,6 @@
     background-color: #388e3c;
 }
 
-/* Сетка кнопок */
 .buttonContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
