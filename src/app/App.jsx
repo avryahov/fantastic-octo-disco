@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import styles from './app.module.css';
+import {useState} from 'react';
+import s from './app.module.css';
 
 const buttonValues = [
     '7', '8', '9', '/',
@@ -9,73 +9,104 @@ const buttonValues = [
     'C'
 ];
 
-const operationSymbols = ['+', '-', '*', '/'];
+const operations = ['+', '-', '*', '/'];
 
 export const App = () => {
-    const [input, setInput] = useState('');
-    const [result, setResult] = useState('');
+    const [operand1, setOperand1] = useState('');
+    const [operand2, setOperand2] = useState('');
+    const [operator, setOperator] = useState('');
+    const [isResult, setIsResult] = useState(false);
 
     const handleButtonClick = (value) => {
         if (value === 'C') {
-            setInput('');
-            setResult('');
-            return;
-        }
-
-        if (operationSymbols.includes(value)) {
-            handleOperation(value);
+            setOperand1('');
+            setOperand2('');
+            setOperator('');
+            setIsResult(false);
             return;
         }
 
         if (value === '=') {
-            calculateResult();
+            if (operand1 && operator && operand2) {
+                const num1 = parseFloat(operand1);
+                const num2 = parseFloat(operand2);
+                let result = '';
+
+                switch (operator) {
+                    case '+':
+                        result = num1 + num2;
+                        break;
+                    case '-':
+                        result = num1 - num2;
+                        break;
+                    case '*':
+                        result = num1 * num2;
+                        break;
+                    case '/':
+                        result = num2 !== 0 ? num1 / num2 : 'Error';
+                        break;
+                    default:
+                        result = 'Error';
+                }
+
+                setOperand1(result.toString());
+                setOperand2('');
+                setOperator('');
+                setIsResult(true);
+            }
             return;
         }
 
-        // Prevent leading zeros except for the first digit after 'C'
-        if (input === '' && value !== '0') {
-            setInput(value);
-        } else if (input === '0' && value === '0') {
-            setInput('0');
+        if (operations.includes(value)) {
+            if (operand1 && !operator) {
+                setOperator(value);
+                setIsResult(false);
+            }
+            return;
+        }
+
+        if (isResult) {
+            setOperand1(value);
+            setOperand2('');
+            setOperator('');
+            setIsResult(false);
+            return;
+        }
+
+        if (!operator) {
+            setOperand1((prev) => prev === '0' && value !== '.' ? value : prev + value);
         } else {
-            setInput(input + value);
+            setOperand2((prev) => prev === '0' && value !== '.' ? value : prev + value);
         }
     };
 
-    const handleOperation = (operation) => {
-        if (input !== '') {
-            setResult(input + operation);
-            setInput(''); // Clear input after pressing an operator
-        }
-    };
-
-    const calculateResult = () => {
-        try {
-            const expr = result + input;
-            const calculatedResult = eval(expr);
-            setResult(calculatedResult.toString());
-            setInput('');
-        } catch {
-            setResult('Error');
-            setInput('');
-        }
+    const getDisplay = () => {
+        if (isResult) return operand1;
+        if (operator && !operand2) return '';
+        return operator ? operand2 : operand1;
     };
 
     return (
-            <div className={styles.container}>
-                <div className={styles.display}>{input || result}</div>
-                <div className={styles.buttonContainer}>
-                    {buttonValues.map((value) => (
+            <div className={s.container}>
+                <div className={`${s.display} ${isResult ? s.result : ''}`}>
+                    {getDisplay() || '0'}
+                </div>
+                <div className={s.buttonContainer}>
+                    {buttonValues.map((val) => (
                             <button
-                                    key={value}
-                                    className={`${styles.button} ${operationSymbols.includes(value) ? styles.operation : ''} ${value === '=' ? styles.equal : ''} ${value === 'C' ? styles.clear : ''}`}
-                                    onClick={() => handleButtonClick(value)}
+                                    key={val}
+                                    className={`
+              ${s.button}
+              ${operations.includes(val) ? s.operation : ''}
+              ${val === '=' ? s.equal : ''}
+              ${val === 'C' ? s.clear : ''}
+            `}
+                                    onClick={() => handleButtonClick(val)}
                             >
-                                {value}
+                                {val}
                             </button>
                     ))}
                 </div>
             </div>
     );
 };
-
